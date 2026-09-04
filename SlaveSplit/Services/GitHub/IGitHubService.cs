@@ -1,0 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+namespace SlaveSplit.Services.GitHub
+{
+    public interface IGitHubService { Task<GitHubConnectionResult> TestConnectionAsync(GitHubSettings settings, CancellationToken cancellationToken); Task<GitHubConnectionResult> GetRepositoryAsync(GitHubSettings settings, CancellationToken cancellationToken); Task<GitHubIssuesResult> GetIssuesAsync(GitHubSettings settings, GitHubIssueQuery query, CancellationToken cancellationToken); Task<GitHubIssueResult> GetIssueAsync(GitHubSettings settings, int issueNumber, CancellationToken cancellationToken); Task<GitHubIssueResult> CreateIssueAsync(GitHubSettings settings, GitHubCreateIssueRequest request, CancellationToken cancellationToken); Task<GitHubOperationResult> CloseIssueAsync(GitHubSettings settings, int issueNumber, CancellationToken cancellationToken); Task<GitHubOperationResult> ReopenIssueAsync(GitHubSettings settings, int issueNumber, CancellationToken cancellationToken); Task<GitHubOperationResult> UpdateIssueBodyAsync(GitHubSettings settings, int issueNumber, string body, CancellationToken cancellationToken); Task<GitHubOperationResult> AddIssueCommentAsync(GitHubSettings settings, int issueNumber, string body, CancellationToken cancellationToken); }
+}

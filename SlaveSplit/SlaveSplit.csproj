@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="false" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37CB2F06-A46D-43AF-A6F3-3DBF9DD8E349}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SlaveSplit</RootNamespace>
+    <AssemblyName>SlaveSplit</AssemblyName>
+    <ApplicationIcon>Resources\Icons\SlaveSplit.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\PrivateAssemblies\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\DarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Controls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ChatView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TodayView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TasksView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HistoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TaskDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DailySummaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WeeklyReportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GitHubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GitHubIssueDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AgentTestRunnerView.xaml"><Generator>MSBuild:Compile</Generator><SubType>Designer</SubType></Page>
+    <Page Include="Views\LocalLlmPocView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TaskBoardView.xaml"><Generator>MSBuild:Compile</Generator><SubType>Designer</SubType></Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Conversation.cs" />
+    <Compile Include="Models\WorkTask.cs" />
+    <Compile Include="Models\WorkspaceModels.cs" />
+    <Compile Include="Models\TaskHistory.cs" />
+    <Compile Include="Models\DailySummary.cs" />
+    <Compile Include="Models\WorkSummaryModels.cs" />
+    <Compile Include="Models\AgentModels.cs" />
+    <Compile Include="AgentTests\AgentTestModels.cs" />
+    <Compile Include="AgentTests\InMemoryTaskRepository.cs" />
+    <Compile Include="AgentTests\AgentTestScenarioRegistry.cs" />
+    <Compile Include="AgentTests\AgentScenarioTestRunner.cs" />
+    <Compile Include="AgentTests\TaskBoardTestRunner.cs" />
+    <Compile Include="Infrastructure\KoreanParticleHelper.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Infrastructure\IClock.cs" />
+    <Compile Include="Infrastructure\FileLogger.cs" />
+    <Compile Include="Infrastructure\AgentLogger.cs" />
+    <Compile Include="Infrastructure\PromptLoader.cs" />
+    <Compile Include="Agents\IAgentService.cs" />
+    <Compile Include="Agents\ConversationContext.cs" />
+    <Compile Include="Agents\AgentTools.cs" />
+    <Compile Include="Agents\AgentConversationService.cs" />
+    <Compile Include="Agents\TaskEntityExtractor.cs" />
+    <Compile Include="Agents\IntentSafety.cs" />
+    <Compile Include="Agents\RuleBasedAgentService.cs" />
+    <Compile Include="Agents\HybridAgentService.cs" />
+    <Compile Include="Repositories\ITaskRepository.cs" />
+    <Compile Include="Repositories\LocalTaskRepository.cs" />
+    <Compile Include="Repositories\WorkspaceTaskRepository.cs" />
+    <Compile Include="Repositories\IConversationRepository.cs" />
+    <Compile Include="Repositories\LocalConversationRepository.cs" />
+    <Compile Include="Services\TaskService.cs" />
+    <Compile Include="Services\WorkspaceService.cs" />
+    <Compile Include="Services\ConversationService.cs" />
+    <Compile Include="Services\ChatTranscriptFormatter.cs" />
+    <Compile Include="Services\TaskNavigationService.cs" />
+    <Compile Include="Services\DashboardNavigationService.cs" />
+    <Compile Include="Services\DailySummaryService.cs" />
+    <Compile Include="Services\DateExpressionParser.cs" />
+    <Compile Include="Services\TimeExpressionParser.cs" />
+    <Compile Include="Services\ReminderService.cs" />
+    <Compile Include="Services\WindowsTrayService.cs" />
+    <Compile Include="Services\WeeklySummaryService.cs" />
+    <Compile Include="Services\WorkReportFormatter.cs" />
+    <Compile Include="Services\UserSettingsService.cs" />
+    <Compile Include="Services\GitHub\GitHubModels.cs" />
+    <Compile Include="Services\GitHub\GitHubIssueModels.cs" />
+    <Compile Include="Services\GitHub\GitHubNavigationService.cs" />
+    <Compile Include="Services\GitHub\IGitHubCredentialProvider.cs" />
+    <Compile Include="Services\GitHub\WindowsGitHubCredentialProvider.cs" />
+    <Compile Include="Services\GitHub\GitHubSettingsService.cs" />
+    <Compile Include="Services\GitHub\GitHubClient.cs" />
+    <Compile Include="Services\GitHub\IGitHubService.cs" />
+    <Compile Include="Services\GitHub\GitHubService.cs" />
+    <Compile Include="Services\GitHub\GitHubTaskMappingService.cs" />
+    <Compile Include="Services\GitHub\GitHubIssueCreationService.cs" />
+    <Compile Include="Services\GitHub\GitHubSyncModels.cs" />
+    <Compile Include="Services\GitHub\GitHubSyncService.cs" />
+    <Compile Include="Services\GitHub\GitHubProjectModels.cs" />
+    <Compile Include="Services\GitHub\GitHubProjectService.cs" />
+    <Compile Include="Services\AI\AiModels.cs" />
+    <Compile Include="Services\AI\LocalIntentModels.cs" />
+    <Compile Include="Services\AI\IntentTrainingDataRepository.cs" />
+    <Compile Include="Services\AI\TfIdfIntentClassifier.cs" />
+    <Compile Include="Services\AI\IAiProvider.cs" />
+    <Compile Include="Services\AI\ICredentialProvider.cs" />
+    <Compile Include="Services\AI\MockAiProvider.cs" />
+    <Compile Include="Services\AI\CompanyAiProvider.cs" />
+    <Compile Include="Services\AI\AgentCommandParser.cs" />
+    <Compile Include="Services\AI\AiContextBuilder.cs" />
+    <Compile Include="Services\AI\AiProviderManager.cs" />
+    <Compile Include="Services\LocalLlm\LlmTaskParseResult.cs" />
+    <Compile Include="Services\LocalLlm\ILocalLlmService.cs" />
+    <Compile Include="Services\LocalLlm\GraniteOllamaService.cs" />
+    <Compile Include="Services\LocalLlm\ParserComparisonService.cs" />
+    <Compile Include="Services\LocalLlm\HybridCommandInterpreter.cs" />
+    <Compile Include="Services\LocalLlm\LocalLlmSettings.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ChatViewModel.cs" />
+    <Compile Include="ViewModels\AgentTestRunnerViewModel.cs" />
+    <Compile Include="ViewModels\TodayViewModel.cs" />
+    <Compile Include="ViewModels\DailySummaryViewModel.cs" />
+    <Compile Include="ViewModels\WeeklyReportViewModel.cs" />
+    <Compile Include="ViewModels\GitHubViewModel.cs" />
+    <Compile Include="ViewModels\GitHubIssueDetailViewModel.cs" />
+    <Compile Include="ViewModels\TasksViewModel.cs" />
+    <Compile Include="ViewModels\TaskDetailViewModel.cs" />
+    <Compile Include="ViewModels\HistoryViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\PlaceholderViewModels.cs" />
+    <Compile Include="ViewModels\LocalLlmPocViewModel.cs" />
+    <Compile Include="ViewModels\TaskBoardViewModel.cs" />
+    <Compile Include="Views\ChatView.xaml.cs">
+      <DependentUpon>ChatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AgentTestRunnerView.xaml.cs"><DependentUpon>AgentTestRunnerView.xaml</DependentUpon></Compile>
+    <Compile Include="Views\TodayView.xaml.cs">
+      <DependentUpon>TodayView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TasksView.xaml.cs">
+      <DependentUpon>TasksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HistoryView.xaml.cs">
+      <DependentUpon>HistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TaskDetailView.xaml.cs">
+      <DependentUpon>TaskDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DailySummaryView.xaml.cs">
+      <DependentUpon>DailySummaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WeeklyReportView.xaml.cs">
+      <DependentUpon>WeeklyReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GitHubView.xaml.cs">
+      <DependentUpon>GitHubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GitHubIssueDetailView.xaml.cs">
+      <DependentUpon>GitHubIssueDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocalLlmPocView.xaml.cs">
+      <DependentUpon>LocalLlmPocView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TaskBoardView.xaml.cs"><DependentUpon>TaskBoardView.xaml</DependentUpon></Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\SlaveSplit.png" />
+    <Resource Include="Resources\Icons\SlaveSplit.ico" />
+    <EmbeddedResource Include="Prompts\SlaveAgentSystemPrompt.txt">
+      <LogicalName>SlaveSplit.Prompts.SlaveAgentSystemPrompt.txt</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\IntentTrainingData.json">
+      <LogicalName>SlaveSplit.Data.IntentTrainingData.json</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\ClearConversationIntentTrainingData.json">
+      <LogicalName>SlaveSplit.Data.ClearConversationIntentTrainingData.json</LogicalName>
+    </EmbeddedResource>
+    <None Include="Data\IntentEvaluationData.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+    <Folder Include="Resources\Icons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

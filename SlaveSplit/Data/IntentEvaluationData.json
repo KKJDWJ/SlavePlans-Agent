@@ -1,0 +1,11 @@
+[
+{"Intent":"ReadTask","Text":"오늘 내가 처리할 게 남아 있나"},{"Intent":"ReadTask","Text":"현재 잡혀 있는 일 좀 알려줘"},{"Intent":"ReadTask","Text":"지금 진행하고 있는 건 뭐지"},{"Intent":"ReadTask","Text":"내 할일을 한번 확인하자"},
+{"Intent":"CreateTask","Text":"새로 해야 될 게 하나 생겼어"},{"Intent":"CreateTask","Text":"미팅 잊지 않도록 할일로 만들어 줘"},{"Intent":"CreateTask","Text":"분석해야 하는 것을 목록에 넣자"},
+{"Intent":"CompleteTask","Text":"아까 하던 일 끝난 걸로 해"},{"Intent":"CompleteTask","Text":"그 작업은 이제 마무리됐음"},{"Intent":"CompleteTask","Text":"해결했으니 닫아도 돼"},
+{"Intent":"AddMemo","Text":"그 작업에 기록 좀 남기자"},{"Intent":"AddMemo","Text":"담당자 회신을 기다린다고 노트해 둬"},{"Intent":"AddMemo","Text":"진행한 내용을 한 줄 보태자"},
+{"Intent":"DeleteTask","Text":"시험용으로 만든 작업들을 치워 줘"},{"Intent":"DeleteTask","Text":"잘못 만든 항목은 목록에서 없애자"},{"Intent":"DeleteTask","Text":"필요 없는 일들을 정리하고 싶어"},
+{"Intent":"StartTask","Text":"그 건 이제 착수한 상태야"},{"Intent":"StartTask","Text":"방금 분석에 들어갔어"},{"Intent":"BlockTask","Text":"승인이 안 나서 더 진행할 수 없어"},{"Intent":"BlockTask","Text":"회신 올 때까지 잠깐 세워 둬"},
+{"Intent":"History","Text":"지난번에 처리한 내용이 궁금해"},{"Intent":"History","Text":"내가 어제 남긴 기록을 찾아줘"},{"Intent":"Briefing","Text":"현재 업무 상황을 한 번에 정리해 봐"},{"Intent":"Briefing","Text":"남은 것과 끝낸 것을 요약해 줘"},
+{"Intent":"GitHubQuery","Text":"웹 저장소 쪽에 제대로 반영됐는지 확인해"},{"Intent":"GitHubQuery","Text":"새로 생긴 깃 이슈가 있는지 봐줘"},{"Intent":"GitHubImport","Text":"저 외부 이슈를 내 할일과 연결하자"},{"Intent":"GitHubImport","Text":"방금 웹에서 만든 것을 여기로 가져오자"},
+{"Intent":"UpdateTask","Text":"그 일의 기한을 하루 미뤄 줘"},{"Intent":"UpdateTask","Text":"등록한 작업의 설명을 고치자"},{"Intent":"General","Text":"이 프로그램으로 어떤 도움을 받을 수 있나"},{"Intent":"General","Text":"처음 사용하는데 안내해 줘"}
+]

@@ -1,0 +1,12 @@
+[
+ {"Intent":"ClearConversation","Text":"대화 기록을 모두 지워"}, {"Intent":"ClearConversation","Text":"대화창 초기화해줘"},
+ {"Intent":"ClearConversation","Text":"채팅 기록 삭제"}, {"Intent":"ClearConversation","Text":"지금까지 대화 없애"},
+ {"Intent":"ClearConversation","Text":"새 대화 시작"}, {"Intent":"ClearConversation","Text":"채팅 내용 전부 비워"},
+ {"Intent":"ClearConversation","Text":"현재 대화를 정리해"}, {"Intent":"ClearConversation","Text":"대화 내역 초기화"},
+ {"Intent":"ClearConversation","Text":"채팅창을 깨끗하게 비워"}, {"Intent":"ClearConversation","Text":"이 대화만 삭제해"},
+ {"Intent":"ClearConversation","Text":"새 채팅으로 시작하자"}, {"Intent":"ClearConversation","Text":"지금 대화 리셋"},
+ {"Intent":"ClearConversation","Text":"대화 내용을 없애줘"}, {"Intent":"ClearConversation","Text":"채팅 내역을 지워줘"},
+ {"Intent":"ClearConversation","Text":"대화창 새로 시작"}, {"Intent":"ClearConversation","Text":"이전 대화 전부 비워"},
+ {"Intent":"ClearConversation","Text":"현재 채팅 초기화"}, {"Intent":"ClearConversation","Text":"대화만 모두 지워"},
+ {"Intent":"ClearConversation","Text":"채팅 메시지를 없애"}, {"Intent":"ClearConversation","Text":"새로운 대화로 바꿔"}
+]

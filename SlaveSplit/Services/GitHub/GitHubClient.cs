@@ -1,0 +1,40 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Text;
+namespace SlaveSplit.Services.GitHub
+{
+    public sealed class GitHubClient : IDisposable
+    {
+        private readonly HttpClient client; private readonly bool ownsClient; private readonly string logPath;
+        public GitHubClient(HttpMessageHandler handler = null, string dataDirectory = null)
+        {
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12; client = handler == null ? new HttpClient() : new HttpClient(handler); ownsClient = true; client.BaseAddress = new Uri("https://api.github.com/"); client.DefaultRequestHeaders.UserAgent.ParseAdd("SlaveSplit/0.1"); client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github+json")); client.DefaultRequestHeaders.Add("X-GitHub-Api-Version", "2022-11-28"); client.Timeout = Timeout.InfiniteTimeSpan;
+            string root = dataDirectory ?? Environment.GetEnvironmentVariable("SLAVESPLIT_DATA_DIR") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SlaveSplit"); Directory.CreateDirectory(root); logPath = Path.Combine(root, "github.log");
+        }
+        public async Task<HttpResponseMessage> GetRepositoryAsync(string owner, string repository, string token, CancellationToken cancellationToken)
+        {
+            string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? ""); Stopwatch watch = Stopwatch.StartNew(); HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, endpoint); if (!string.IsNullOrWhiteSpace(token)) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim());
+            try { HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken); Log("GET", endpoint, ((int)response.StatusCode).ToString(), watch.ElapsedMilliseconds, response.IsSuccessStatusCode); return response; }
+            catch { Log("GET", endpoint, "none", watch.ElapsedMilliseconds, false); throw; }
+            finally { request.Dispose(); }
+        }
+        public Task<HttpResponseMessage> GetIssuesAsync(string owner, string repository, GitHubIssueQuery query, string token, CancellationToken cancellationToken) { string state = query.State == GitHubIssueState.All ? "all" : query.State == GitHubIssueState.Closed ? "closed" : "open"; string sort = query.Sort == GitHubIssueSort.Newest || query.Sort == GitHubIssueSort.Oldest ? "created" : "updated"; string direction = query.Sort == GitHubIssueSort.Oldest ? "asc" : "desc"; string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues?state=" + state + "&page=" + Math.Max(1, query.Page) + "&per_page=" + Math.Max(1, Math.Min(100, query.PerPage)) + "&sort=" + sort + "&direction=" + direction; return GetAsync(endpoint, token, cancellationToken); }
+        public Task<HttpResponseMessage> GetIssueAsync(string owner, string repository, int issueNumber, string token, CancellationToken cancellationToken) { string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues/" + issueNumber; return GetAsync(endpoint, token, cancellationToken); }
+        public async Task<HttpResponseMessage> CreateIssueAsync(string owner, string repository, GitHubCreateIssueRequest value, string token, CancellationToken cancellationToken) { string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues"; Stopwatch watch = Stopwatch.StartNew(); HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, endpoint); if (!string.IsNullOrWhiteSpace(token)) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim()); request.Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json"); try { HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken); Log("POST", endpoint, ((int)response.StatusCode).ToString(), watch.ElapsedMilliseconds, response.IsSuccessStatusCode); return response; } catch { Log("POST", endpoint, "none", watch.ElapsedMilliseconds, false); throw; } finally { request.Dispose(); } }
+        public Task<HttpResponseMessage> UpdateIssueStateAsync(string owner, string repository, int issueNumber, string state, string token, CancellationToken cancellationToken) { string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues/" + issueNumber; return SendJsonAsync(new HttpMethod("PATCH"), endpoint, new { state = state }, token, cancellationToken); }
+        public Task<HttpResponseMessage> UpdateIssueBodyAsync(string owner, string repository, int issueNumber, string body, string token, CancellationToken cancellationToken) { string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues/" + issueNumber; return SendJsonAsync(new HttpMethod("PATCH"), endpoint, new { body = body ?? "" }, token, cancellationToken); }
+        public Task<HttpResponseMessage> AddIssueCommentAsync(string owner, string repository, int issueNumber, string body, string token, CancellationToken cancellationToken) { string endpoint = "repos/" + Uri.EscapeDataString(owner ?? "") + "/" + Uri.EscapeDataString(repository ?? "") + "/issues/" + issueNumber + "/comments"; return SendJsonAsync(HttpMethod.Post, endpoint, new { body = body }, token, cancellationToken); }
+        public Task<HttpResponseMessage> GraphQLAsync(string query, object variables, string token, CancellationToken cancellationToken) { return SendJsonAsync(HttpMethod.Post, "graphql", new { query = query, variables = variables }, token, cancellationToken); }
+        private async Task<HttpResponseMessage> SendJsonAsync(HttpMethod method, string endpoint, object value, string token, CancellationToken cancellationToken) { Stopwatch watch = Stopwatch.StartNew(); HttpRequestMessage request = new HttpRequestMessage(method, endpoint); if (!string.IsNullOrWhiteSpace(token)) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim()); request.Content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8, "application/json"); try { HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken); Log(method.Method, endpoint, ((int)response.StatusCode).ToString(), watch.ElapsedMilliseconds, response.IsSuccessStatusCode); return response; } catch { Log(method.Method, endpoint, "none", watch.ElapsedMilliseconds, false); throw; } finally { request.Dispose(); } }
+        private async Task<HttpResponseMessage> GetAsync(string endpoint, string token, CancellationToken cancellationToken) { Stopwatch watch = Stopwatch.StartNew(); HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, endpoint); if (!string.IsNullOrWhiteSpace(token)) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim()); try { HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken); Log("GET", endpoint, ((int)response.StatusCode).ToString(), watch.ElapsedMilliseconds, response.IsSuccessStatusCode); return response; } catch { Log("GET", endpoint, "none", watch.ElapsedMilliseconds, false); throw; } finally { request.Dispose(); } }
+        private void Log(string method, string endpoint, string status, long elapsed, bool success) { try { File.AppendAllText(logPath, DateTime.Now.ToString("O") + " method=" + method + " endpoint=" + endpoint + " status=" + status + " elapsedMs=" + elapsed + " success=" + success + Environment.NewLine); } catch { } }
+        public void Dispose() { if (ownsClient) client.Dispose(); }
+    }
+}
